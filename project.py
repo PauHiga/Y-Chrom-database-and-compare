@@ -47,7 +47,7 @@ def pysimplegui():
                 [sg.HorizontalSeparator()], 
                 [sg.Button('Return', size = (10, 1))]]
 
-            layout_col2 = [[sg.Multiline(good_day(), key='notes_create_db', size=(50,15))]]
+            layout_col2 = [[sg.Multiline(good_day(datetime.datetime.now().hour), key='notes_create_db', size=(50,15))]]
             
             layout2 = [[sg.Col(layout_col1) , sg.VerticalSeparator(), sg.Col(layout_col2)]]
 
@@ -66,6 +66,9 @@ def pysimplegui():
                     if check_file_input(docx_path, ".docx")[0]:
                         sg.popup(check_file_input(docx_path, ".docx")[1])
                         win2['notes_create_db'].update(check_file_input(docx_path, ".docx")[1])
+                    elif get_docx_data(docx_path)[0] == []:
+                        sg.popup("The .docx file could not be processed! Please make sure there is at least one Y Chromosome table in the file")
+                        win2['notes_create_db'].update("The .docx file could not be processed! Please make sure there is at least one Y Chromosome table in the file")
                     else:
                         # Add default .csv
                         if vals2["save-in-file"] == "":
@@ -103,7 +106,7 @@ def pysimplegui():
                 [sg.Button('Return', size = (10, 1))]
                 ]
 
-            layout3_col2 = [[sg.Multiline(good_day(), key='Notes_compare', size=(50,15), disabled=True)]]
+            layout3_col2 = [[sg.Multiline(good_day(datetime.datetime.now().hour), key='Notes_compare', size=(50,15), disabled=True)]]
             
             layout3 = [[sg.Col(layout3_col1) , sg.VerticalSeparator(), sg.Col(layout3_col2)]]
 
@@ -123,7 +126,11 @@ def pysimplegui():
                         win3['Notes_compare'].update(check_csv_data(get_csv_data(csv_to_compare_data))[1])
                     else:
                         if check_user_input(prepare_user_input(vals3))[0]:
-                            win3['Notes_compare'].update("".join(compare_databases(get_csv_data(csv_to_compare_data), [prepare_user_input(vals3)])))
+                            message = compare_dict_with_database(prepare_user_input(vals3), get_csv_data(csv_to_compare_data))
+                            if message == []:
+                                win3['Notes_compare'].update("No match found!")
+                            else:     
+                                win3['Notes_compare'].update("".join(message))
                         else:
                             sg.popup(check_user_input(prepare_user_input(vals3))[1])
                             win3['Notes_compare'].update(check_user_input(prepare_user_input(vals3))[1])
@@ -247,17 +254,10 @@ def check_user_input(user_input):
     elif accepted_input == 22:
         return True, ""
 
-def compare_databases(list_of_dict_database, list_of_dict_to_compare):
-    matches = [compare_dict_with_database(each_dict_to_compare, list_of_dict_database) for each_dict_to_compare in list_of_dict_to_compare if compare_dict_with_database(each_dict_to_compare, list_of_dict_database) != None]
-    all_matches = []
-    for item in matches:
-        all_matches.extend(item)
-    return all_matches
-
 def compare_dict_with_database(each_comparison, database):
     current_sample_match = []
     for database_dict in database:
-        if compare_dicts(each_comparison, database_dict) != None:
+        if compare_dicts(each_comparison, database_dict) != "":
             current_sample_match.append(compare_dicts(each_comparison, database_dict))
     return sorted(current_sample_match)
 
@@ -295,25 +295,21 @@ def compare_dicts(dict_sample, dict_database):
         return_message = f"2º \"{dict_sample['MUESTRA']}\" matches \"{dict_database['MUESTRA']}\" with one exception\n\n"
     
     elif len(dict_matches_with_ND) == 22 and len(full_dict_matches) >= 17:
-        return_message = f"3º \"{dict_sample['MUESTRA']}\" matches \"{dict_database['MUESTRA']}\" counting ND as potential match with  {ND_alone} ND\n\n"
-    elif len(dict_matches_with_ND) == 22 and len(full_dict_matches) >= 10:
+        return_message = f"3º \"{dict_sample['MUESTRA']}\" matches \"{dict_database['MUESTRA']}\" counting ND as potential match with {ND_alone} ND\n\n"
+    elif len(dict_matches_with_ND) == 22 and len(full_dict_matches) >= 12:
         return_message = f"4º \"{dict_sample['MUESTRA']}\" matches \"{dict_database['MUESTRA']}\" counting ND as potential match, but keep in mind there are {ND_alone} ND in this comparison\n\n"
     elif len(dict_matches_with_ND) == 22:
         return_message = f"5º \"{dict_sample['MUESTRA']}\" matches \"{dict_database['MUESTRA']}\" counting ND as potential match, but keep in mind there are {ND_alone} ND in this comparison\n\n"
 
     return return_message
 
-
-def good_day():
-    if 4 < datetime.datetime.now().hour <= 11:
+def good_day(hour):
+    if 2 < hour <= 11:
         return "Hello, good morning"
-    elif 11 < datetime.datetime.now().hour <= 17:
+    elif 11 < hour <= 17:
         return "Hello, good afternoon"
-    elif 17 < datetime.datetime.now().hour <= 21:
-        return "Hello, good evening"
     else:
-        return "Hello, good night"
+        return "Hello, good evening"
 
 if __name__ == "__main__":
     main()
-
