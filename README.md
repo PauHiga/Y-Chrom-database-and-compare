@@ -17,3 +17,4 @@ The tables with the information were presented in two formats (with the informat
 
 I designed my program to be able to extract the information from that formats. 
 It can also extract the information if the Y chromosome pattern is displayed in more or less rows, or if the markers are in different order. But for the comparison part to work, the table's headers should be (case insensitive): 'MUESTRA', 'DYS576','DYS389I', 'DYS448', 'DYS389II', 'DYS19', 'DYS391', 'DYS481', 'DYS549', 'DYS533', 'DYS438', 'DYS437', 'DYS570', 'DYS635', 'DYS390', 'DYS439', 'DYS392', 'DYS643', 'DYS393', 'DYS458', 'DYS385A/B', 'DYS456' and'Y-GATA-H4'.
+Once the data is normalized in .csv files, it can be saved in a database in a further step of this project
