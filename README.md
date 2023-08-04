@@ -3,12 +3,24 @@
 #### Description: This is a program designed to extract data (Y Chromosome markers patterns) from tables in .docx files, and save the information as .csv file. Then, the user can input an Y Chromosome pattern and the program checks if it matches any pattern in the .csv file created.
 
 </br>
+
+## Technologies used:
+- Python
+- PySimpleGUI for user interface
+
 </br>
 
+
+### Program Workflow
+
+1. Data is extracted from tables in .docx files and saved as .csv files. 
+2. The user can input Y Chromosome pattern for comparison.
+3. The program checks if the input pattern matches any pattern in the .csv file.
+
 ### Considerations:
+I made this program thinking in a real life case we had at my former job. 
 To be able to extract the data from the tables in .docx file, I needed to consider how the data was presented in such tables. 
 
-I made this program thinking in a real life case we had at my former job. 
 The tables with the information were presented in two formats (with the information contained in two or three rows, this was because were files used for printing and the whole pattern was too wide to be visualized in a single row). 
 
 
