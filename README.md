@@ -1,6 +1,7 @@
 # Y Chrom Database & Compare
 #### Video Demo:  https://youtu.be/_K4S9UMBBnE
-#### Description: This is a program designed to extract data (Y Chromosome markers patterns) from tables in .docx files, and save the information as .csv file. Then, the user can input an Y Chromosome pattern and the program checks if it matches any pattern in the .csv file created.
+#### Description: This is a program designed to extract data (Y Chromosome marker patterns) from tables in .docx files, and save the information as .csv file. Then, the user can input a Y Chromosome pattern and the program checks if it matches any pattern in the .csv file created. In a future version of this project, the .csv file can be used to create a database to manage the data.
+
 
 </br>
 
